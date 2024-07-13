@@ -76,7 +76,7 @@ def preprocess_and_train():
     predictions_with_details = predictions_with_details.drop('index', axis=1)
 
     # Save processed data and model
-    with open('processed_data.pkl', 'wb') as f:
+    with open('data/processed_data.pkl', 'wb') as f:
         pickle.dump({
             'predictions_with_details': predictions_with_details,
             'accuracy': accuracy,
