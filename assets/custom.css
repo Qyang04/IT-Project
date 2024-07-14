@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0px;
@@ -7,10 +7,29 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: white;
     padding: 20px;
+}
+.each-container{
+    margin-bottom: 20px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.boxes-container{
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.box{
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
 }
 h1, h2 {
     color: #333;
@@ -22,15 +41,41 @@ h1, h2 {
     text-align: center;
     margin: 20px 0;
 }
+.box-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 10px;
+}*/
+.accuracy-display {
+    font-size: 48px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+}
+.box-shadow{
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.box-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+.correct{
+    color: #00CC96;
+}
+.incorrect{
+    color: #EF553B;
+}
 
 /* Top Nav bar css */
-.navbar {
+/* .navbar {
     background-color: #333;
     padding: 10px 10px;
 }
 
 .navbar-brand {
-    color: white; /*white*/
+    color: white; 
     font-size: 1.5em;
     text-decoration: none;
     margin-right: 20px;
@@ -66,6 +111,107 @@ h1, h2 {
     justify-content: space-between;
     align-items: center;
     background-color: #333;
+} */
+/* End of Top Nav bar css */
+
+body {
+    font-family: "Lato", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
 }
 
-/* End of Top Nav bar css */
+#sidebar {
+    height: 100%;
+    width: 80px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+#sidebar:hover {
+    width: 250px;
+}
+
+.sidebar-link {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.sidebar-link:hover {
+    color: #f1f1f1;
+}
+
+.material-icons {
+    vertical-align: middle;
+    padding-bottom: 3px;
+    margin-right: 30px;
+}
+
+#main-content {
+    transition: margin-left .3s;
+    padding: 16px;
+    margin-left: 80px;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+#sidebar:hover + #main-content {
+    margin-left: 250px;
+}
+
+.icon-text {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#sidebar:hover .icon-text {
+    opacity: 1;
+}
+
+/* @media screen and (max-height: 450px) {
+    #sidebar {padding-top: 15px;}
+    .sidebar-link {font-size: 18px;}
+} */
+
+@media screen and (max-width: 768px) {
+    #sidebar {
+        width: 0;
+        padding-top: 15px;
+    }
+
+    #sidebar:hover {
+        width: 200px;
+    }
+
+    #main-content {
+        margin-left: 0;
+        padding-left: 16px;
+    }
+
+    #sidebar:hover + #main-content {
+        margin-left: 0;
+    }
+
+    .sidebar-link {
+        font-size: 18px;
+    }
+
+    body.sidebar-open #sidebar {
+        width: 200px;
+    }
+
+    body.sidebar-open #main-content {
+        margin-left: 200px;
+    }
+}
