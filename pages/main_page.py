@@ -24,7 +24,7 @@ def main_page_content():
                     names=['Correct', 'Incorrect'],
                     values=[correct_count, incorrect_count],
                     title='Prediction Accuracy',
-                    color_discrete_sequence=['#00CC96', '#EF553B']
+                    color_discrete_sequence=['#9290C3', '#535C91']
                 )
             )
         ], className="box-shadow container bg-white rounded p-4 mb-4"),
@@ -71,9 +71,14 @@ def main_page_content():
                     }
                     for row in predictions_with_details.to_dict('records')
                 ],
-                style_table={'overflowX': 'auto'},
+                style_table={
+                    'overflowX': 'auto',
+                    'border-radius': '12px',
+                    'box-shadow': '0 0 10px rgba(0,0,0,0.1)',
+                    'margin-bottom': '5px'
+                },
                 style_cell={
-                    'textAlign': 'left',
+                    'textAlign': 'center',
                     'padding': '10px',
                     'font-family': 'Arial, sans-serif',
                     'font-size': '14px'
@@ -81,10 +86,13 @@ def main_page_content():
                 style_header={
                     'backgroundColor': '#f2f2f2',
                     'fontWeight': 'bold',
-                    'border': '1px solid #ddd'
+                    'border': 'none'
                 },
                 style_data={
-                    'border': '1px solid #ddd'
+                    'border': 'none'
+                },
+                style_filter={
+                    'border': 'none'
                 },
                 style_data_conditional=[
                     {
@@ -93,17 +101,17 @@ def main_page_content():
                     },
                     {
                         'if': {'filter_query': '{correct} eq "Yes"'},
-                        'backgroundColor': 'rgb(220, 249, 227)',
+                        'backgroundColor': '#9290C3',
                         'color': 'black'
                     },
                     {
                         'if': {'filter_query': '{correct} eq "No"'},
-                        'backgroundColor': 'rgb(255, 236, 236)',
+                        'backgroundColor': '#535C91',
                         'color': 'black'
                     }
                 ],
                 page_action='native',
-                page_size=20,
+                page_size=15,
                 sort_action='native',
                 filter_action='native'
             )

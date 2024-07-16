@@ -62,10 +62,10 @@ h1, h2 {
     color: #007bff;
 }
 .correct{
-    color: #00CC96;
+    color: #9290C3;
 }
 .incorrect{
-    color: #EF553B;
+    color: #535C91;
 }
 
 /* Top Nav bar css */
@@ -118,7 +118,7 @@ body {
     font-family: "Lato", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #D6E5FA;
 }
 
 #sidebar {
@@ -128,10 +128,11 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #9DB2BF;
     overflow-x: hidden;
     transition: 0.3s;
     padding-top: 60px;
+    box-shadow: 0 0 13px rgba(0,0,0,0.2);
 }
 
 #sidebar:hover {
@@ -142,14 +143,14 @@ body {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #405D72;
     display: block;
     transition: 0.3s;
     white-space: nowrap;
 }
 
 .sidebar-link:hover {
-    color: #f1f1f1;
+    color: #EEF5FF;
 }
 
 .material-icons {
@@ -162,7 +163,7 @@ body {
     transition: margin-left .3s;
     padding: 16px;
     margin-left: 80px;
-    background-color: #f0f0f0;
+    background-color: #D6E5FA;
     min-height: 100vh;
 }
 
