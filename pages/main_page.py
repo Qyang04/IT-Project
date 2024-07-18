@@ -1,3 +1,4 @@
+# pages/main_page.py
 from dash import html, dcc, dash_table
 import plotly.express as px
 import pickle
