@@ -3,6 +3,7 @@ from dash import html
 from pages.main_page import main_page_content
 from pages.overall_stats import overall_stats_content
 from pages.individual_player_stats import individual_player_stats_content
+from pages.team_stats import team_stats_content
 from sidebar import create_sidebar
 
 def create_layout(content):
@@ -31,3 +32,6 @@ def overall_stats_layout():
 
 def individual_player_stats_layout():
     return create_layout(individual_player_stats_content())
+
+def team_stats_layout():
+    return create_layout(team_stats_content())

@@ -17,52 +17,57 @@ season_types = data['Season_type'].unique()
 
 def overall_stats_content():
     return html.Div([
-        html.H1("NBA Player Stats Dashboard"),
-    
         html.Div([
-            html.Div([
-                html.Label("Select Year:"),
-                dcc.Dropdown(
-                    id='year-dropdown',
-                    options=[{'label': str(year), 'value': year} for year in years],
-                    value=years[0],
-                    style={'width': '150px'}
-                ),
-            ], style={'display': 'inline-block', 'margin-right': '20px'}),
-            
-            html.Div([
-                html.Label("Select Season Type:"),
-                dcc.Dropdown(
-                    id='season-type-dropdown',
-                    options=[{'label': season_type, 'value': season_type} for season_type in season_types],
-                    value=season_types[0],
-                    style={'width': '150px'}
-                ),
-            ], style={'display': 'inline-block'}),
-        ]),
+            html.H1("NBA Player Stats Dashboard"),
         
-        dash_table.DataTable(
-            id='stats-table',
-            columns=[
-                {"name": i, "id": i, "presentation": "markdown"} if i == "PLAYER" else {"name": i, "id": i}
-                for i in data.columns if i not in ['Year', 'Season_type']
-            ],
-            page_size=20,
-            style_table={'overflowX': 'auto'},
-            style_cell_conditional=[
-                {'if': {'column_id': 'PLAYER'},
-                'textAlign': 'left'},
-                {'if': {'column_id': 'Year'},
-                'display': 'none'},
-                {'if': {'column_id': 'Season_type'},
-                'display': 'none'}
-            ],
-            style_cell={
-                'textAlign': 'center',
-                'padding': '5px'
-            },
-            markdown_options={"html": True}  # Allow HTML in markdown
-        )
+            html.Div([
+                html.Div([
+                    html.Label("Select Year:"),
+                    dcc.Dropdown(
+                        id='year-dropdown',
+                        options=[{'label': str(year), 'value': year} for year in years],
+                        value=years[0],
+                        style={'width': '150px'}
+                    ),
+                ], style={'display': 'inline-block', 'margin-right': '20px'}),
+                
+                html.Div([
+                    html.Label("Select Season Type:"),
+                    dcc.Dropdown(
+                        id='season-type-dropdown',
+                        options=[{'label': season_type, 'value': season_type} for season_type in season_types],
+                        value=season_types[0],
+                        style={'width': '150px'}
+                    ),
+                ], style={'display': 'inline-block'}),
+            ]),
+            
+            dash_table.DataTable(
+                id='stats-table',
+                columns=[
+                    {"name": i, "id": i, "presentation": "markdown"} if i == "PLAYER" else {"name": i, "id": i}
+                    for i in data.columns if i not in ['Year', 'Season_type']
+                ],
+                page_size=20,
+                style_table={'overflowX': 'auto'},
+                style_cell_conditional=[
+                    {'if': {'column_id': 'PLAYER'},
+                    'textAlign': 'left'},
+                    {'if': {'column_id': 'Year'},
+                    'display': 'none'},
+                    {'if': {'column_id': 'Season_type'},
+                    'display': 'none'}
+                ],
+                style_header={
+                    'fontWeight': 'bold'
+                },
+                style_cell={
+                    'textAlign': 'center',
+                    'padding': '5px'
+                },
+                markdown_options={"html": True}  # Allow HTML in markdown
+            )
+        ], className="shadow container bg-white rounded p-4 mb-4")
     ])
 
 # Define filter_data and get_player_stats functions

@@ -13,6 +13,10 @@ def create_sidebar():
                 html.I(className="material-icons", children="person"),
                 html.Span("Player Stats", className="icon-text")
             ], href="/overall-stats", className="sidebar-link"),
+            dcc.Link([
+                html.I(className="material-icons", children="leaderboard"),
+                html.Span("Team Stats", className="icon-text")
+            ], href="/team-stats", className="sidebar-link"),
             # Add more navigation items here as needed
         ], id="sidebar-content")
     ], id="sidebar")
