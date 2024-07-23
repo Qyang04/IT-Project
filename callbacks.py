@@ -1,10 +1,12 @@
 # callbacks.py
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from pages.overall_stats import filter_data, get_player_stats
 import urllib.parse
 import pandas as pd
 import plotly.express as px
-import pickle
+import dash_bootstrap_components as dbc
+import plotly.graph_objs as go
+from dash import html, dcc
 
 def register_callbacks(app):
     # Combined callback to update overall stats table and add hyperlinks
@@ -79,13 +81,69 @@ def register_callbacks(app):
         # Create bar chart
         fig = px.bar(
             team_stats,
-            x='team',
-            y='win_percentage',
+            y='team',
+            x='win_percentage',
             title=f'Team Win Percentages for {selected_season}-{selected_season+1} Season',
             labels={'team': 'Team', 'win_percentage': 'Win Percentage'},
             color='win_percentage',
-            color_continuous_scale='Viridis'
+            color_continuous_scale='rdylgn',
+            orientation='h'
         )
-        fig.update_layout(xaxis={'categoryorder': 'total descending'})
+        fig.update_layout(
+            yaxis={'categoryorder': 'total ascending'},
+            xaxis_title="Win Percentage", 
+            yaxis_title="Team",
+            height=1000,
+            margin=dict(l=150),
+            bargap=0.2
+        )
+        fig.update_traces(
+            texttemplate='%{x:.1%}', 
+            textposition='outside', # add % at the end of bar
+        ) 
         
         return table_data, fig
+    
+    @app.callback(
+        Output('selected-team-stats', 'children'),
+        [Input('team-stats-table', 'selected_rows'),
+         Input('team-stats-table', 'data'),
+         Input('season-dropdown', 'value')]
+    )
+    def display_selected_team_stats(selected_rows, table_data, selected_season):
+        if not selected_rows:
+            return html.Div()
+        
+        selected_team = table_data[selected_rows[0]]['team']
+        
+        df = pd.read_csv("nba_games.csv")
+        df['date'] = pd.to_datetime(df['date'])
+        df['season'] = df['date'].apply(lambda x: x.year if x.month >= 10 else x.year - 1)
+        
+        team_data = df[(df['team'] == selected_team) & (df['season'] == selected_season)]
+        
+        cumulative_wins = team_data['won'].cumsum()
+        cumulative_losses = (~team_data['won'].astype(bool)).cumsum()
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=team_data['date'].astype(str), y=cumulative_wins, mode='lines', name='Wins'))
+        fig.add_trace(go.Scatter(x=team_data['date'].astype(str), y=cumulative_losses, mode='lines', name='Losses'))
+        fig.update_layout(title=f"{selected_team} Win-Loss Record for {selected_season}-{selected_season+1} Season",
+                          xaxis_title="Date", yaxis_title="Games", xaxis=dict(tickformat='%Y-%m-%d', tickmode='auto', nticks=10))
+        
+        return html.Div([
+            html.H1(f"Detailed Stats for {selected_team}", className="mb-4 text-center"),
+            dbc.Row([
+                dbc.Col([
+                    html.P(f"Total Games: {len(team_data)}"),
+                    html.P(f"Home Games: {len(team_data[team_data['home'] == 1])}"),
+                    html.P(f"Away Games: {len(team_data[team_data['home'] == 0])}"),
+                    html.P(f"Points Scored: {team_data['pts'].sum()}"),
+                    html.P(f"Points Allowed: {team_data['pts_opp'].sum()}"),
+                ], width=4),
+                dbc.Col([
+                    dcc.Graph(figure=fig)
+                ], width=8)
+            ])
+        ], className="box-shadow container bg-white rounded p-4 my-4")
+        
