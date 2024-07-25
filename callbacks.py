@@ -1,5 +1,6 @@
 # callbacks.py
 from dash.dependencies import Input, Output, State
+from pages.individual_player_stats import get_player_career_stats, get_player_image_url
 from pages.overall_stats import filter_data, get_player_stats
 import urllib.parse
 import pandas as pd
@@ -28,7 +29,9 @@ def register_callbacks(app):
     # Callback to update player stats table based on player and season type
     @app.callback(
         [Output('player-stats-table', 'data'),
-         Output('player-name-header', 'children')],
+         Output('player-name-header', 'children'),
+         Output('player-image', 'src'),
+         Output('player-career-stats', 'children')],
         [Input('url', 'pathname'),
          Input('player-season-type-dropdown', 'value')]
     )
@@ -41,8 +44,30 @@ def register_callbacks(app):
             # Sort the data by Year in descending order
             filtered_data = filtered_data.sort_values('Year', ascending=False)
             
-            return filtered_data.to_dict('records'), f"{player_name} Stats"
-        return [], ""
+            # Get the player image URL
+            player_image_url = get_player_image_url(player_name)
+            
+            # Get career stats
+            career_stats = get_player_career_stats(player_name, selected_season_type)
+        
+            # Create a layout for career stats
+            if career_stats:
+                career_stats_layout = html.Div([
+                    html.H3(f"Career Highlights ({selected_season_type})", className="mb-4"),
+                    html.Div([
+                        html.Div([
+                            html.P([
+                                html.Strong(f"{key}: "),
+                                f"{value:}"
+                            ])
+                            for key, value in list(career_stats.items())[i:i+3]
+                        ], className="col-lg-6")
+                    for i in range(0, len(career_stats), 3)
+                    ], className="row")
+                ])
+            
+            return filtered_data.to_dict('records'), f"{player_name} Stats", player_image_url, career_stats_layout
+        return [], "", "", html.Div()
     
     # callback for team stats
     @app.callback(
@@ -133,17 +158,33 @@ def register_callbacks(app):
         
         return html.Div([
             html.H1(f"Detailed Stats for {selected_team}", className="mb-4 text-center"),
-            dbc.Row([
-                dbc.Col([
-                    html.P(f"Total Games: {len(team_data)}"),
-                    html.P(f"Home Games: {len(team_data[team_data['home'] == 1])}"),
-                    html.P(f"Away Games: {len(team_data[team_data['home'] == 0])}"),
-                    html.P(f"Points Scored: {team_data['pts'].sum()}"),
-                    html.P(f"Points Allowed: {team_data['pts_opp'].sum()}"),
-                ], width=4),
-                dbc.Col([
-                    dcc.Graph(figure=fig)
-                ], width=8)
-            ])
-        ], className="box-shadow container bg-white rounded p-4 my-4")
-        
+            html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.P([
+                            html.Strong("Total Games: "), 
+                            f"{len(team_data)}"
+                        ]),
+                        html.P([
+                            html.Strong("Home Games: "), 
+                            f"{len(team_data[team_data['home'] == 1])}"
+                        ]),
+                        html.P([
+                            html.Strong("Away Games: "), 
+                            f"{len(team_data[team_data['home'] == 0])}"
+                        ]),
+                        html.P([
+                            html.Strong("Points Scored: "), 
+                            f"{team_data['pts'].sum()}"
+                        ]),
+                        html.P([
+                            html.Strong("Points Allowed: "), 
+                            f"{team_data['pts_opp'].sum()}"
+                        ]),
+                    ], width=3),
+                    dbc.Col([
+                        dcc.Graph(figure=fig)
+                    ], width=8)
+                ], align="center", justify="center")
+            ], className="align-middle")
+        ], className="box-shadow container bg-white p-4 my-4")

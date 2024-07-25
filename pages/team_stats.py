@@ -48,7 +48,7 @@ def team_stats_content():
                 type="border",
                 fullscreen=True,
             )
-        ], className="box-shadow container bg-white rounded p-4 mb-4"),
+        ], className="box-shadow container bg-white p-4 mb-4"),
         
         html.Div([
             html.H1("NBA Team Statistics", className="mb-4 text-center"),
@@ -63,22 +63,31 @@ def team_stats_content():
                             {'name': 'Losses', 'id': 'losses'},
                             {'name': 'Win %', 'id': 'win_percentage'},
                         ],
-                        style_table={'overflowX': 'auto'},
+                        style_table={
+                            'overflowX': 'auto',
+                            'border': '1px solid #ccc',
+                            'border-radius': '8px'
+                        },
                         style_cell={
                             'textAlign': 'center',
                             'padding': '10px',
                             'font-family': 'Arial, sans-serif',
-                            'font-size': '14px'
+                            'font-size': '14px',
+                            'borderLeft': 'none',
+                            'borderRight': 'none',
+                            'borderTop': '1px solid #ccc',
+                            'borderBottom': '1px solid #ccc',
+                            'backgroundColor': '#e0f5ea'
                         },
                         style_header={
-                            'backgroundColor': '#f2f2f2',
+                            'backgroundColor': '#B6C6BE',
                             'fontWeight': 'bold',
                             'border': 'none'
                         },
                         style_data_conditional=[
                             {
                                 'if': {'row_index': 'odd'},
-                                'backgroundColor': '#f9f9f9'
+                                'backgroundColor': '#d1e4da'
                             },
                         ],
                         sort_action='native',
@@ -87,6 +96,6 @@ def team_stats_content():
                     ),
                 ], width=12),
             ])
-        ], className="box-shadow container bg-white rounded p-4 mb-4"),
+        ], className="box-shadow container bg-white p-4 mb-4"),
         html.Div(id='selected-team-stats')
     ])

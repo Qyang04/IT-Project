@@ -15,7 +15,7 @@ incorrect_count = data['incorrect_count']
 def main_page_content():
     return html.Div([
         html.Div([
-            html.H1("NBA Game Prediction Dashboard", className="mb-4"),
+            html.H1("NBA Game Prediction Dashboard", className="mb-4 text-center"),
             html.H2("Model Accuracy", className="mb-3"),
             html.Div(f"{accuracy:.2%}", className="accuracy-display mb-4"),
             
@@ -28,31 +28,31 @@ def main_page_content():
                     color_discrete_sequence=['#9290C3', '#535C91']
                 )
             )
-        ], className="box-shadow container bg-white rounded p-4 mb-4"),
+        ], className="box-shadow container bg-white p-4 mb-4"),
         
         html.Div([
             html.Div([
                 html.Div([
                     html.H2("Total Data Used", className="h4"),
                     html.Div(f"{correct_count+incorrect_count}", className="box-value")
-                ], className="box-shadow bg-white rounded py-5 h-100 text-center")
+                ], className="box-shadow bg-white py-5 h-100 text-center")
             ], className="col-lg-4 mb-3 mb-lg-0"),
             html.Div([
                 html.Div([
                     html.H2("Total Correct Prediction", className="h4"),
                     html.Div(f"{correct_count}", className="box-value correct")
-                ], className="box-shadow bg-white rounded py-5 h-100 text-center")
+                ], className="box-shadow bg-white py-5 h-100 text-center")
             ], className="col-lg-4 mb-3 mb-lg-0"),
             html.Div([
                 html.Div([
                     html.H2("Total Incorrect Prediction", className="h4"),
                     html.Div(f"{incorrect_count}", className="box-value incorrect")
-                ], className="box-shadow bg-white rounded py-5 h-100 text-center")
+                ], className="box-shadow bg-white py-5 h-100 text-center")
             ], className="col-lg-4 mb-3 mb-lg-0")
         ], className="row mb-4"),
         
         html.Div([
-            html.H2("Prediction Results"),
+            html.H2("Prediction Results", className="text-center"),
             dash_table.DataTable(
                 id='prediction-table',
                 columns=[
@@ -74,6 +74,7 @@ def main_page_content():
                 ],
                 style_table={
                     'overflowX': 'auto',
+                    'border': '1px solid #7895CB',
                     'border-radius': '12px',
                     'box-shadow': '0 0 10px rgba(0,0,0,0.1)',
                     'margin-bottom': '5px'
@@ -82,32 +83,32 @@ def main_page_content():
                     'textAlign': 'center',
                     'padding': '10px',
                     'font-family': 'Arial, sans-serif',
-                    'font-size': '14px'
+                    'font-size': '14px',
+                    'borderLeft': 'none',
+                    'borderRight': 'none',
+                    'borderTop': '1px solid #7895CB',
+                    'borderBottom': '1px solid #7895CB',
+                    'backgroundColor': '#E1FFEE'
                 },
                 style_header={
-                    'backgroundColor': '#f2f2f2',
+                    'backgroundColor': '#A0BFE0',
                     'fontWeight': 'bold',
                     'border': 'none'
                 },
-                style_data={
-                    'border': 'none'
-                },
                 style_filter={
-                    'border': 'none'
+                    'borderTop': '1px solid #7895CB'
                 },
                 style_data_conditional=[
                     {
-                        'if': {'row_index': 'odd'},
-                        'backgroundColor': '#f9f9f9'
+                        'if': {'row_index': 'even'},
+                        'backgroundColor': '#C5DFF8'
                     },
                     {
                         'if': {'filter_query': '{correct} eq "Yes"'},
-                        'backgroundColor': '#9290C3',
                         'color': 'black'
                     },
                     {
                         'if': {'filter_query': '{correct} eq "No"'},
-                        'backgroundColor': '#535C91',
                         'color': 'black'
                     }
                 ],
@@ -116,5 +117,5 @@ def main_page_content():
                 sort_action='native',
                 filter_action='native'
             )
-        ], className="box-shadow container bg-white rounded p-4 mb-4")
+        ], className="box-shadow container bg-white p-4 mb-4")
     ])

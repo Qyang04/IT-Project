@@ -18,7 +18,7 @@ season_types = data['Season_type'].unique()
 def overall_stats_content():
     return html.Div([
         html.Div([
-            html.H1("NBA Player Stats Dashboard"),
+            html.H1("NBA Player Stats Dashboard", className="mb-4 text-center"),
         
             html.Div([
                 html.Div([
@@ -27,9 +27,9 @@ def overall_stats_content():
                         id='year-dropdown',
                         options=[{'label': str(year), 'value': year} for year in years],
                         value=years[0],
-                        style={'width': '150px'}
+                        style={'width': '200px'}
                     ),
-                ], style={'display': 'inline-block', 'margin-right': '20px'}),
+                ], className="me-3"),
                 
                 html.Div([
                     html.Label("Select Season Type:"),
@@ -37,10 +37,10 @@ def overall_stats_content():
                         id='season-type-dropdown',
                         options=[{'label': season_type, 'value': season_type} for season_type in season_types],
                         value=season_types[0],
-                        style={'width': '150px'}
+                        style={'width': '200px'}
                     ),
-                ], style={'display': 'inline-block'}),
-            ]),
+                ]),
+            ], className="d-flex justify-content-end mb-4"),
             
             dash_table.DataTable(
                 id='stats-table',
@@ -67,7 +67,7 @@ def overall_stats_content():
                 },
                 markdown_options={"html": True}  # Allow HTML in markdown
             )
-        ], className="shadow container bg-white rounded p-4 mb-4")
+        ], className="box-shadow container bg-white p-4 mb-4")
     ])
 
 # Define filter_data and get_player_stats functions
