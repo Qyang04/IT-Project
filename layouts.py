@@ -10,6 +10,12 @@ from sidebar import create_sidebar
 def create_layout(content):
     return html.Div([
         html.Link(
+            rel='icon',
+            href='/assets/favicon.ico',
+            type='image/x-icon'
+        ),
+        html.Div(id='_page_title', style={'display': 'none'}),
+        html.Link(
             rel='stylesheet',
             href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
         ),

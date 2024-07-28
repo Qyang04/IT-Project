@@ -254,13 +254,3 @@ def register_callbacks(app):
                 return html.Div(f"An unexpected error occurred: {str(e)}")
         
         return html.Div("News feed is only available on the Fan Zone page")
-    
-    @app.callback(
-        Output('poll-results', 'children'),
-        Input('submit-poll', 'n_clicks'),
-        State('championship-poll', 'value')
-    )
-    def update_poll_results(n_clicks, selected_team):
-        if n_clicks > 0 and selected_team:
-            return f"Thank you for voting! You selected: {selected_team}"
-        return ""

@@ -65,7 +65,7 @@ def team_stats_content():
                         ],
                         style_table={
                             'overflowX': 'auto',
-                            'border': '1px solid #ccc',
+                            'border': '1px solid #508D4E',
                             'border-radius': '8px'
                         },
                         style_cell={
@@ -75,8 +75,8 @@ def team_stats_content():
                             'font-size': '14px',
                             'borderLeft': 'none',
                             'borderRight': 'none',
-                            'borderTop': '1px solid #ccc',
-                            'borderBottom': '1px solid #ccc',
+                            'borderTop': '1px solid #508D4E',
+                            'borderBottom': '1px solid #508D4E',
                             'backgroundColor': '#e0f5ea'
                         },
                         style_header={

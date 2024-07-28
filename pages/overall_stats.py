@@ -49,22 +49,41 @@ def overall_stats_content():
                     for i in data.columns if i not in ['Year', 'Season_type']
                 ],
                 page_size=20,
-                style_table={'overflowX': 'auto'},
+                style_table={
+                    'overflowX': 'auto',
+                    'verticalAlign': 'middle',
+                    'padding-left': '1px'
+                },
                 style_cell_conditional=[
-                    {'if': {'column_id': 'PLAYER'},
-                    'textAlign': 'left'},
+                    {
+                        'if': {'column_id': 'PLAYER'},
+                        'textAlign': 'left',
+                    },
                     {'if': {'column_id': 'Year'},
                     'display': 'none'},
                     {'if': {'column_id': 'Season_type'},
                     'display': 'none'}
                 ],
+                style_data_conditional=[
+                    {
+                        'if': {'column_id': 'PLAYER'},
+                        'height': '60px'
+                    },
+                    {
+                        'if': {'row_index': 'odd'},
+                        'backgroundColor': '#D6EFD8'
+                    },
+                ],
                 style_header={
-                    'fontWeight': 'bold'
+                    'fontWeight': 'bold',
+                    'background': '#B5CFB7'
                 },
                 style_cell={
                     'textAlign': 'center',
-                    'padding': '5px'
+                    'padding': '5px',
+                    'border': '1px solid #508D4E'
                 },
+                sort_action='native',
                 markdown_options={"html": True}  # Allow HTML in markdown
             )
         ], className="box-shadow container bg-white p-4 mb-4")

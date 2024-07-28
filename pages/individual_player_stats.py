@@ -61,15 +61,26 @@ def individual_player_stats_content():
             dash_table.DataTable(
                 id='player-stats-table',
                 columns=[{"name": i, "id": i} for i in data.columns if i not in ['PLAYER', 'Season_type']],
-                style_table={'overflowX': 'auto'},
+                style_table={'overflowX': 'auto', 'padding-left': '1px'},
                 style_cell_conditional=[
                     {'if': {'column_id': 'Year'},
                     'textAlign': 'left'},
                 ],
                 style_cell={
                     'textAlign': 'center',
-                    'padding': '5px'
-                }
+                    'padding': '5px',
+                    'border': '1px solid #508D4E'
+                },
+                style_data_conditional=[
+                    {
+                        'if': {'row_index': 'odd'},
+                        'backgroundColor': '#D6EFD8'
+                    }
+                ],
+                style_header={
+                    'fontWeight': 'bold',
+                    'background': '#B5CFB7'
+                },
             )
         ], className="box-shadow container bg-white rounded p-4 mb-4")
     ])

@@ -12,6 +12,10 @@ accuracy = data['accuracy']
 correct_count = data['correct_count']
 incorrect_count = data['incorrect_count']
 
+# Map the values of actual and prediction
+predictions_with_details['actual'] = predictions_with_details['actual'].map({1: 'Won', 0: 'Lost'})
+predictions_with_details['prediction'] = predictions_with_details['prediction'].map({1: 'Won', 0: 'Lost'})
+
 def main_page_content():
     return html.Div([
         html.Div([
@@ -34,7 +38,7 @@ def main_page_content():
             html.Div([
                 html.Div([
                     html.H2("Total Data Used", className="h4"),
-                    html.Div(f"{correct_count+incorrect_count}", className="box-value")
+                    html.Div(f"{correct_count + incorrect_count}", className="box-value")
                 ], className="box-shadow bg-white py-5 h-100 text-center")
             ], className="col-lg-4 mb-3 mb-lg-0"),
             html.Div([

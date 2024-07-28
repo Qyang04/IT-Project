@@ -86,12 +86,12 @@ body {
     opacity: 1;
 }
 
-/* @media screen and (max-height: 450px) {
+@media screen and (max-height: 450px) {
     #sidebar {padding-top: 15px;}
     .sidebar-link {font-size: 18px;}
-} */
+}
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     #sidebar {
         width: 0;
         padding-top: 15px;
@@ -121,7 +121,7 @@ body {
     body.sidebar-open #main-content {
         margin-left: 200px;
     }
-}
+} */
 
 
 
