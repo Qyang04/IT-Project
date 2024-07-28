@@ -122,3 +122,60 @@ body {
         margin-left: 200px;
     }
 }
+
+
+
+/* latest feeds design */
+.news-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.news-list li {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.news-item-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.news-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.news-content {
+    flex: 1;
+}
+
+.news-title {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.news-title:hover {
+    text-decoration: underline;
+}
+
+.news-metadata {
+    font-size: 12px;
+    color: #666;
+}
+
+.news-author, .news-time {
+    margin-right: 5px;
+}
+
+.news-separator {
+    margin: 0 5px;
+}

@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc
 from dash.dependencies import Input, Output
 
-from layouts import main_layout, overall_stats_layout, individual_player_stats_layout, team_stats_layout
+from layouts import main_layout, overall_stats_layout, individual_player_stats_layout, team_stats_layout, fan_zone_layout
 import callbacks
 
 app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -23,6 +23,8 @@ def display_page(pathname):
         return individual_player_stats_layout()
     elif pathname == '/team-stats':
         return team_stats_layout()
+    elif pathname == '/fan-zone':
+        return fan_zone_layout()
     elif pathname == '/':
         return main_layout()
     else:

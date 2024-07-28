@@ -4,6 +4,7 @@ from pages.main_page import main_page_content
 from pages.overall_stats import overall_stats_content
 from pages.individual_player_stats import individual_player_stats_content
 from pages.team_stats import team_stats_content
+from pages.fan_zone import fan_zone_content
 from sidebar import create_sidebar
 
 def create_layout(content):
@@ -35,3 +36,6 @@ def individual_player_stats_layout():
 
 def team_stats_layout():
     return create_layout(team_stats_content())
+
+def fan_zone_layout():
+    return create_layout(fan_zone_content())

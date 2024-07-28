@@ -1,5 +1,7 @@
 # callbacks.py
+from bs4 import BeautifulSoup
 from dash.dependencies import Input, Output, State
+import requests
 from pages.individual_player_stats import get_player_career_stats, get_player_image_url
 from pages.overall_stats import filter_data, get_player_stats
 import urllib.parse
@@ -8,6 +10,8 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 from dash import html, dcc
+import xml.etree.ElementTree as ET
+
 
 def register_callbacks(app):
     # Combined callback to update overall stats table and add hyperlinks
@@ -188,3 +192,75 @@ def register_callbacks(app):
                 ], align="center", justify="center")
             ], className="align-middle")
         ], className="box-shadow container bg-white p-4 my-4")
+        
+    @app.callback(
+        Output('nba-news-feed', 'children'),
+        Input('url', 'pathname')
+    )
+    def update_news_feed(pathname):
+        if pathname == '/fan-zone':
+            try:
+                url = "https://www.sportingnews.com/au/nba/news"
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                }
+                response = requests.get(url, headers=headers)
+                response.raise_for_status()
+                
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                news_items = soup.find_all('div', class_='md:flex md:flex-col group')[:5]
+                
+                if not news_items:
+                    return html.Div("No news items found. The website structure might have changed.")
+                
+                news_list = []
+                for item in news_items:
+                    link_elem = item.find('a', role='article')
+                    title_elem = item.find('h3', class_='font-bold')
+                    img_elem = item.find('img', class_='object-cover')
+                    
+                    if link_elem and title_elem and img_elem:
+                        title = title_elem.text.strip()
+                        link = link_elem['href']
+                        img_src = img_elem['src']
+                        author_elem = item.find('p', class_='p-0 m-0 font-medium leading-9.38px uppercase text-d4 whitespace-nowrap text-8px md:text-10px h-2 md:h-2.5')
+                        author = author_elem.text if author_elem else "Unknown"
+                        time_elem = item.find('time')
+                        time = time_elem['datetime'] if time_elem else "Unknown"
+                        
+                        news_item = html.Li([
+                            html.Div([
+                                html.Img(src=img_src, className="news-image"),
+                                html.Div([
+                                    html.A(title, href=link, target="_blank", className="news-title"),
+                                    html.Div([
+                                        html.Span(f"By {author}", className="news-author"),
+                                        html.Span(" • ", className="news-separator"),
+                                        html.Span(time, className="news-time")
+                                    ], className="news-metadata")
+                                ], className="news-content")
+                            ], className="news-item-container")
+                        ])
+                        news_list.append(news_item)
+                    else:
+                        news_list.append(html.Li("Error parsing news item"))
+                
+                return html.Ul(news_list, className="news-list") if news_list else html.Div("No valid news items found")
+            
+            except requests.RequestException as e:
+                return html.Div(f"Error fetching news: {str(e)}")
+            except Exception as e:
+                return html.Div(f"An unexpected error occurred: {str(e)}")
+        
+        return html.Div("News feed is only available on the Fan Zone page")
+    
+    @app.callback(
+        Output('poll-results', 'children'),
+        Input('submit-poll', 'n_clicks'),
+        State('championship-poll', 'value')
+    )
+    def update_poll_results(n_clicks, selected_team):
+        if n_clicks > 0 and selected_team:
+            return f"Thank you for voting! You selected: {selected_team}"
+        return ""
